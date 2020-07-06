@@ -85,6 +85,8 @@ void TrafficLight::cycleThroughPhases()
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
         
         // using std::this_thread::sleep_for to wait for updating phase
+        // this method can cause higher value of waiting time
+        // because this thread is not always active
         // if(_currentPhase == TrafficLightPhase::red)
         // {
         //     std::this_thread::sleep_for(std::chrono::milliseconds(rd_time));
@@ -111,7 +113,6 @@ void TrafficLight::cycleThroughPhases()
             _msgLight->send(std::move(_currentPhase));
 
             start = std::chrono::system_clock::now();
-            std::random_device rd;
             std::mt19937 e(rd());
             rd_time = dist(e);
         }
